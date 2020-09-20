@@ -4,11 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/modelo/Repositorio.java</file>
+            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/vista/CommitV.java</file>
             <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/vista/GUI.java</file>
-            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/modelo/Commit.java</file>
-            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/modelo/Main.java</file>
-            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/modelo/ArchivoTexto.java</file>
-            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/modelo/ZonasTrabajo.java</file>
+            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/vista/Add.java</file>
+            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/vista/Archivo.java</file>
+            <file>file:/C:/Users/Nico/Documents/NetBeansProjects/git/src/vista/Init.java</file>
         </group>
     </open-files>
 </project-private>

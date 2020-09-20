@@ -5,12 +5,12 @@
  */
 package vista;
 import javax.swing.JOptionPane;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import modelo.ArchivoTexto;
 import modelo.Commit;
 import modelo.Repositorio;
 import modelo.ZonasTrabajo;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -24,6 +24,22 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
     }
+    
+    Repositorio repositorio = new Repositorio();
+    ZonasTrabajo zonas;
+    boolean verificador = false;
+    boolean init = false;
+    
+    //Repositorio repositorio;
+    /*
+    private Repositorio getRepositorio(){
+        return repositorio;
+    }
+    
+    private void setRepositorio(Repositorio repositorio){
+       this.repositorio = repositorio;
+    }*/
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,8 +68,20 @@ public class GUI extends javax.swing.JFrame {
         botonNuevoArchivo = new javax.swing.JButton();
         botonGitPull = new javax.swing.JButton();
         botonGitPush = new javax.swing.JButton();
-        nombreA = new javax.swing.JTextField();
-        contenidoA = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        mostrarWs = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        mostrarI = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        mostrarLR = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        mostrarRR = new javax.swing.JTextArea();
+        datos1 = new javax.swing.JTextField();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        datos2 = new javax.swing.JTextArea();
+        d1 = new javax.swing.JLabel();
+        aceptar = new javax.swing.JButton();
+        d2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,7 +104,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Remote Repository");
 
-        botonStatusWorkspace.setText("Status Workspace");
+        botonStatusWorkspace.setText("Status");
         botonStatusWorkspace.setToolTipText("");
         botonStatusWorkspace.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,16 +112,21 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        botonStatusIndex.setText("Status Index");
+        botonStatusIndex.setText("Status");
+        botonStatusIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonStatusIndexActionPerformed(evt);
+            }
+        });
 
-        botonStatusLocalRepository.setText("Status Local Repository");
+        botonStatusLocalRepository.setText("Status");
         botonStatusLocalRepository.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonStatusLocalRepositoryActionPerformed(evt);
             }
         });
 
-        botonStatusRemoteRepository.setText("Status Remote Repository");
+        botonStatusRemoteRepository.setText("Status");
         botonStatusRemoteRepository.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonStatusRemoteRepositoryActionPerformed(evt);
@@ -120,6 +153,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         botonGitCommit.setText("commit");
+        botonGitCommit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGitCommitActionPerformed(evt);
+            }
+        });
 
         botonNuevoArchivo.setText("Nuevo Archivo");
         botonNuevoArchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -136,6 +174,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         botonGitPush.setText("push");
+        botonGitPush.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGitPushActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -150,7 +193,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(botonGitAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonGitPull, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonGitCommit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonGitPush, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -169,8 +212,43 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(botonNuevoArchivo)
                     .addComponent(botonGitPull)
                     .addComponent(botonGitPush))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
+
+        mostrarWs.setColumns(20);
+        mostrarWs.setRows(5);
+        mostrarWs.setPreferredSize(new java.awt.Dimension(160, 90));
+        jScrollPane1.setViewportView(mostrarWs);
+
+        mostrarI.setColumns(20);
+        mostrarI.setRows(5);
+        mostrarI.setPreferredSize(new java.awt.Dimension(160, 90));
+        jScrollPane2.setViewportView(mostrarI);
+
+        mostrarLR.setColumns(20);
+        mostrarLR.setRows(5);
+        mostrarLR.setPreferredSize(new java.awt.Dimension(160, 90));
+        jScrollPane3.setViewportView(mostrarLR);
+
+        mostrarRR.setColumns(20);
+        mostrarRR.setRows(5);
+        mostrarRR.setPreferredSize(new java.awt.Dimension(160, 90));
+        jScrollPane4.setViewportView(mostrarRR);
+
+        datos2.setColumns(20);
+        datos2.setRows(5);
+        jScrollPane5.setViewportView(datos2);
+
+        d1.setText("    ");
+
+        aceptar.setText("Aceptar");
+        aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aceptarActionPerformed(evt);
+            }
+        });
+
+        d2.setText("    ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -179,71 +257,109 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(botonStatusWorkspace)
-                        .addGap(80, 80, 80)
-                        .addComponent(botonStatusIndex)
-                        .addGap(80, 80, 80)
-                        .addComponent(botonStatusLocalRepository))
+                        .addGap(101, 101, 101)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(botonStatusWorkspace))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(botonStatusIndex)
+                                .addGap(122, 122, 122))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(195, 195, 195)
+                                .addComponent(jLabel3))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(jLabel2)
-                        .addGap(141, 141, 141)
-                        .addComponent(jLabel3)
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(81, 81, 81)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(1, 1, 1)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 46, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(85, 85, 85)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(botonStatusLocalRepository)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addGap(33, 33, 33)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(jLabel5)
-                        .addContainerGap(72, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(botonStatusRemoteRepository)
-                        .addGap(46, 46, 46))))
+                        .addGap(92, 92, 92))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5)
+                        .addGap(69, 69, 69))))
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(602, 602, 602)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(d1)
+                    .addComponent(d2))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35))
+                        .addGap(158, 158, 158)
+                        .addComponent(aceptar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nombreA)
-                    .addComponent(contenidoA, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
-                .addGap(90, 90, 90))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .addComponent(datos1))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(87, 87, 87)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
-                .addGap(33, 33, 33)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonStatusWorkspace)
                     .addComponent(botonStatusIndex)
                     .addComponent(botonStatusLocalRepository)
                     .addComponent(botonStatusRemoteRepository))
+                .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2)
+                        .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(d1)
+                                .addGap(36, 36, 36)
+                                .addComponent(d2)
+                                .addGap(103, 103, 103))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(datos1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(nombreA, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(contenidoA, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(canvas1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(aceptar))))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -260,14 +376,14 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(255, 255, 255))
+                .addGap(262, 262, 262))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -276,7 +392,7 @@ public class GUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,55 +401,224 @@ public class GUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    Repositorio repositorio = new Repositorio();
     
     private void botonStatusWorkspaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusWorkspaceActionPerformed
         // TODO add your handling code here:
+        
+        mostrarWs.setText("");
+        //Repositorio repositorio = new Repositorio();
+        //repositorio = getRepositorio();
+        //ZonasTrabajo zonas = new ZonasTrabajo();
+        
+        mostrarWs.setText(String.valueOf(repositorio.nombre));
+              
+        /*
+        if(repositorio.zonas.archivosWorkspace.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay archivos en el Workspace", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            String elementos = "";
+            for(int i = 0; i < repositorio.zonas.archivosWorkspace.size(); i++){
+                elementos = elementos + " " + repositorio.zonas.archivosWorkspace.get(i).nombre;
+            }
+            mostrarWs.setText(elementos);
+            //repositorio.statusWorkspace(repositorio, zonas);
+            //mostrarWs.setText(String.valueOf(repositorio.statusWorkspace(repositorio, zonas)));
+        }
+        */
+        
     }//GEN-LAST:event_botonStatusWorkspaceActionPerformed
 
     private void botonStatusLocalRepositoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusLocalRepositoryActionPerformed
         // TODO add your handling code here:
+        mostrarLR.setText("");
+        if(repositorio.zonas.commitsLocalRepository.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay commits en el Local Repository", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            String elementos = "";
+            for(int i = 0; i < repositorio.zonas.commitsLocalRepository.size(); i++){
+                elementos = elementos + " " + repositorio.zonas.commitsLocalRepository.get(i).mensaje;
+            }
+            mostrarLR.setText(elementos);
+        }
     }//GEN-LAST:event_botonStatusLocalRepositoryActionPerformed
 
     private void botonStatusRemoteRepositoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusRemoteRepositoryActionPerformed
         // TODO add your handling code here:
+        mostrarRR.setText("");
+        if(repositorio.zonas.archivosRemoteRepository.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No hay commits en el Remote Repository", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            String elementos = "";
+            for(int i = 0; i < repositorio.zonas.archivosRemoteRepository.size(); i++){
+                elementos = elementos + " " + repositorio.zonas.archivosRemoteRepository.get(i).mensaje;
+            }
+            mostrarRR.setText(elementos);
+        }
     }//GEN-LAST:event_botonStatusRemoteRepositoryActionPerformed
 
     private void botonGitAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitAddActionPerformed
         // TODO add your handling code here:
+        String nombreArchivo = datos1.getText();
+        String all = datos2.getText();
+        if(repositorio.zonas.archivosWorkspace.size() > 0){
+            d1.setText("Ingrese el nombre del archivo");
+            d2.setText("Ingrese el contenido del archivo");
+            if (nombreArchivo.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Debe introducir un nombre de archivo para agregar al Index", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                repositorio.gitAdd(repositorio, repositorio.zonas.archivosWorkspace, nombreArchivo);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "No hay archivos en el Workspace", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+            
     }//GEN-LAST:event_botonGitAddActionPerformed
 
     private void botonNuevoArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoArchivoActionPerformed
         // TODO add your handling code here:
-        String nombreArchivo = nombreA.getText();
-        String contenidoArchivo = contenidoA.getText();
+        d1.setText("Ingrese el nombre del archivo");
+        d2.setText("Ingrese el contenido del archivo");
+        JOptionPane.showMessageDialog(null, "Introduzca los datos del archivo de texto", "Nuevo Archivo", JOptionPane.INFORMATION_MESSAGE);
+        String nombreArchivo = datos1.getText();
+        String contenidoArchivo = datos2.getText();
         
-        if (nombreArchivo == null || nombreArchivo.isEmpty()){
+        if(verificador){
+            repositorio.crearArchivo(repositorio, nombreArchivo, contenidoArchivo);
+            System.out.println(repositorio.zonas.archivosWorkspace.get(0).nombre);
+        }
+        
+        verificador = false;
+        
+        
+        /*if (nombreArchivo.isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe introducir un nombre para el archivo", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            if (contenidoArchivo == null || contenidoArchivo.isEmpty()){
+            if (contenidoArchivo.isEmpty()){
                 JOptionPane.showMessageDialog(null, "Debe introducir un contenido para el archivo", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
             else{
-                repositorio = repositorio.crearArchivo(repositorio, nombreArchivo, contenidoArchivo);
+                repositorio.crearArchivo(repositorio, nombreArchivo, contenidoArchivo);
             }
-        }      
+        }*/    
     }//GEN-LAST:event_botonNuevoArchivoActionPerformed
 
     private void botonGitPullActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitPullActionPerformed
         // TODO add your handling code here:
+        if(repositorio.zonas.archivosRemoteRepository.size() > 0){
+            repositorio.gitPull();
+            JOptionPane.showMessageDialog(null, "Se realizo el Pull", null, JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Necesita tener commits en el Remote Repository para realizar un Pull", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_botonGitPullActionPerformed
 
     private void botonGitInitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitInitActionPerformed
         // TODO add your handling code here:
-        dispose();
-        Init i = new Init();
-        i.setTitle("Ingrese los datos del repositorio");
-        i.setVisible(true);
+        
+        datos1.setVisible(true);
+        d1.setText("Ingrese el nombre del repositorio");
+        d2.setText("Ingrese el autor del repositorio");
+        JOptionPane.showMessageDialog(null, "Introduzca los datos del repositorio", "Git Init", JOptionPane.INFORMATION_MESSAGE);
+        String nombreRepo = datos1.getText();
+        String autorRepo = datos2.getText();
+        
+        if(verificador){
+            repositorio.gitInit(nombreRepo, autorRepo);
+            System.out.println(repositorio.nombre);
+        }
+       
+        verificador = false;
+                    
+        //GUI g = new GUI();
+        //g.aceptarActionPerformed(evt);
+        
+        /*if (nombreRepo.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe introducir un nombre para el repositorio", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            if(autorRepo.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Debe introducir un nombre de autor para el repositorio", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{                               
+                repositorio.gitInit(nombreRepo, autorRepo);
+            }
+        }*/
         
     }//GEN-LAST:event_botonGitInitActionPerformed
+
+    private void botonStatusIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusIndexActionPerformed
+        // TODO add your handling code here:
+        mostrarI.setText("");
+       if(repositorio.zonas.archivosIndex.size() == 0){
+           JOptionPane.showMessageDialog(null, "No hay archivos en el Index", "Error", JOptionPane.INFORMATION_MESSAGE);      
+       }
+       else{
+            String elementos = "";
+            for(int i = 0; i < repositorio.zonas.archivosIndex.size(); i++){
+                elementos = elementos + " " + repositorio.zonas.archivosIndex.get(i).nombre;
+            }
+            mostrarI.setText(elementos);
+       }
+       
+    }//GEN-LAST:event_botonStatusIndexActionPerformed
+
+    private void botonGitCommitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitCommitActionPerformed
+        // TODO add your handling code here:
+        String autorCommit = datos1.getText();
+        String mensajeCommit = datos2.getText();
+        if(repositorio.zonas.archivosIndex.size() > 0 && repositorio.zonas.commitsLocalRepository.size() <= repositorio.zonas.archivosIndex.size()){
+            d1.setText("Ingrese el autor del commit");
+            d2.setText("Ingrese el mensaje que describa el commit");      
+            JOptionPane.showMessageDialog(null, "Introduzca los datos del repositorio", "Git Init", JOptionPane.INFORMATION_MESSAGE);
+            if (autorCommit.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Es necesario que se ingrese el nombre del autor del commit", null, JOptionPane.INFORMATION_MESSAGE);
+            }
+            else if(mensajeCommit.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Es necesario que se ingrese un mensaje que describa el commit", null, JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                repositorio.gitCommit(repositorio, autorCommit, mensajeCommit, repositorio.zonas.archivosIndex);
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Necesita tener archivos en el Index para realizar un commit", null, JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_botonGitCommitActionPerformed
+
+    private void aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarActionPerformed
+        // TODO add your handling code here:
+         
+        String datos_1 = datos1.getText();
+        String datos_2 = datos2.getText();
+        if(datos_1.isEmpty() || datos_2.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Es necesario que rellene todos los campos", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            verificador = true;
+        }
+        datos1.setText("");
+        datos2.setText("");
+    }//GEN-LAST:event_aceptarActionPerformed
+
+    private void botonGitPushActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitPushActionPerformed
+        // TODO add your handling code here:
+        if(repositorio.zonas.commitsLocalRepository.size() > 0){
+            repositorio.gitPush();
+            JOptionPane.showMessageDialog(null, "Se realizo el Push", null, JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Necesita tener commits en el Local Repository para realizar un Push", "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botonGitPushActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,6 +629,7 @@ public class GUI extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+ 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -366,11 +652,13 @@ public class GUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GUI().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aceptar;
     private javax.swing.JButton botonGitAdd;
     private javax.swing.JButton botonGitCommit;
     private javax.swing.JButton botonGitInit;
@@ -382,7 +670,10 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton botonStatusRemoteRepository;
     private javax.swing.JButton botonStatusWorkspace;
     private java.awt.Canvas canvas1;
-    private javax.swing.JTextField contenidoA;
+    private javax.swing.JLabel d1;
+    private javax.swing.JLabel d2;
+    private javax.swing.JTextField datos1;
+    private javax.swing.JTextArea datos2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -391,6 +682,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField nombreA;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextArea mostrarI;
+    private javax.swing.JTextArea mostrarLR;
+    private javax.swing.JTextArea mostrarRR;
+    private javax.swing.JTextArea mostrarWs;
     // End of variables declaration//GEN-END:variables
 }

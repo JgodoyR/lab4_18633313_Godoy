@@ -17,9 +17,9 @@ package modelo;
 
 public class ArchivoTexto 
 {
-    String nombre;
-    String fechaModificacion;
-    String contenido;
+    public String nombre;
+    public String fechaModificacion;
+    public String contenido;
     
     public ArchivoTexto ArchivoTexto(String nombre, String fechaModificacion, String contenido){
 
