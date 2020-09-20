@@ -286,7 +286,7 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private Repositorio repositorio;
+    Repositorio repositorio = new Repositorio();
     
     private void botonStatusWorkspaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusWorkspaceActionPerformed
         // TODO add your handling code here:
@@ -308,19 +308,18 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         String nombreArchivo = nombreA.getText();
         String contenidoArchivo = contenidoA.getText();
-        if (nombreArchivo == null){
+        
+        if (nombreArchivo == null || nombreArchivo.isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe introducir un nombre para el archivo", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
-        //else{
-        //    JOptionPane.
-        //}
-        
-        if (contenidoArchivo == null){
-            JOptionPane.showMessageDialog(null, "Debe introducir un contenido para el archivo", "Error", JOptionPane.INFORMATION_MESSAGE);
-        }
-        
-        repositorio.crearArchivo(repositorio, nombreArchivo, contenidoArchivo);
-        
+        else{
+            if (contenidoArchivo == null || contenidoArchivo.isEmpty()){
+                JOptionPane.showMessageDialog(null, "Debe introducir un contenido para el archivo", "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                repositorio = repositorio.crearArchivo(repositorio, nombreArchivo, contenidoArchivo);
+            }
+        }      
     }//GEN-LAST:event_botonNuevoArchivoActionPerformed
 
     private void botonGitPullActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitPullActionPerformed
@@ -329,13 +328,11 @@ public class GUI extends javax.swing.JFrame {
 
     private void botonGitInitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitInitActionPerformed
         // TODO add your handling code here:
+        dispose();
+        Init i = new Init();
+        i.setTitle("Ingrese los datos del repositorio");
+        i.setVisible(true);
         
-        //String nombreRepo = nombreR.getText();
-        //String autorRepo = autorR.getText();
-        
-        Repositorio repositorio = new Repositorio();
-        
-        //repositorio = repositorio.gitInit(nombreRepo, autorRepo);
     }//GEN-LAST:event_botonGitInitActionPerformed
 
     /**

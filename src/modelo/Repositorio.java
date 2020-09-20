@@ -41,7 +41,17 @@ public class Repositorio {
         return repositorio;
 
     }
-
+    
+    /*
+    public Repositorio getRepositorio(){
+        return this.repo;
+    }
+    
+    public void setRepositorio(Repositorio repositorio){
+        this.repo = repositorio;
+    }
+    */
+    
     /*Metodo que retorna el atributo nombre del repositorio
     @return atributo nombre*/
     public String getNombre(){
