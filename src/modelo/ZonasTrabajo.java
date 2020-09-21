@@ -21,12 +21,20 @@ import java.util.ArrayList;
 
 public class ZonasTrabajo{
     
-    public ArrayList<ArchivoTexto> archivosWorkspace = new ArrayList<>();
-    public ArrayList<ArchivoTexto> archivosIndex = new ArrayList<>();
-    public ArrayList<Commit> commitsLocalRepository = new ArrayList<>();
-    public ArrayList<Commit> archivosRemoteRepository = new ArrayList<>();
-    public boolean alDia = false;
-
+    public ArrayList<ArchivoTexto> archivosWorkspace = new ArrayList<>(); //Arreglo que contendra los archivos de texto del Workspace
+    public ArrayList<ArchivoTexto> archivosIndex = new ArrayList<>(); //Arreglo que contendra los archivos de texto del Index
+    public ArrayList<Commit> commitsLocalRepository = new ArrayList<>(); //Arreglo que contendra los commits del Local Repository
+    public ArrayList<Commit> archivosRemoteRepository = new ArrayList<>(); //Arreglo que contendra los commits del Remote Repository
+    public boolean alDia = false; //Estado del Remote Repository
+    
+    /** 
+     * Crea una zona a partir de sus 4 zonas de trabajo: Workspace, Index, Local Repository y Remote Repository
+     * @param workspace Arreglo de archivos que representa la zona de trabajo Workspace
+     * @param index Arreglo de archivos que representa la zona de trabajo Index
+     * @param localRepository Arreglo de commits que representa la zona de trabajo Local Repository
+     * @param remoteRepository Arreglo de commits que representa la zona de trabajo Remote Repository
+     * @return zonas Las zonas de trabajo
+     */
     public ZonasTrabajo ZonasTrabajo(ArrayList<ArchivoTexto> workspace, ArrayList<ArchivoTexto> index, ArrayList<Commit> localRepository, ArrayList<Commit> remoteRepository){
           
         ZonasTrabajo zonas = new ZonasTrabajo();
@@ -36,50 +44,66 @@ public class ZonasTrabajo{
         return zonas;
     }
 
-    /*Metodo que retorna el atributo archivosWorkspace de la zona de trabajo
-	@return atributo archivosWorkspace*/
+    /**
+     * Metodo que retorna el atributo archivosWorkspace de la zona de trabajo
+     * @return atributo archivosWorkspace
+     */
     public ArrayList<ArchivoTexto> getWorkspace(){
         return this.archivosWorkspace;
     }
 
-    /*Metodo que asigna el valor de workspace en el atributo archivosWorkspace de la zona de trabajo
-	@param workspace representa el nuevo valor de archivosWorkspace de la zona de trabajo*/
+    /**
+     * Metodo que asigna el valor de workspace en el atributo archivosWorkspace de la zona de trabajo
+     * @param workspace representa el nuevo valor de archivosWorkspace de la zona de trabajo
+     */
     public void setWorkspace(ArrayList<ArchivoTexto> workspace){
         this.archivosWorkspace = workspace;
     }
 
-    /*Metodo que retorna el atributo archivosIndex de la zona de trabajo
-	@return atributo archivosIndex*/
+    /**
+     * Metodo que retorna el atributo archivosIndex de la zona de trabajo
+     * @return atributo archivosIndex
+     */
     public ArrayList<ArchivoTexto> getIndex(){
         return this.archivosIndex;
     }
 
-    /*Metodo que asigna el valor de index en el atributo archivosIndex de la zona de trabajo
-	@param index representa el nuevo valor de archivosIndex de la zona de trabajo*/
+    /**
+     * Metodo que asigna el valor de index en el atributo archivosIndex de la zona de trabajo
+     * @param index representa el nuevo valor de archivosIndex de la zona de trabajo
+     */
     public void setIndex(ArrayList<ArchivoTexto> index){
         this.archivosIndex = index;
     }
 
-    /*Metodo que retorna el atributo commitsLocalRepository de la zona de trabajo
-	@return atributo commitsLocalRepository*/
+    /**
+     * Metodo que retorna el atributo commitsLocalRepository de la zona de trabajo
+     * @return atributo commitsLocalRepository
+     */
     public ArrayList<Commit> getLocalRepository(){
         return this.commitsLocalRepository;
     }
 
-    /*Metodo que asigna el valor de localRepository en el atributo commitsLocalRepository de la zona de trabajo
-	@param localRepository representa el nuevo valor de commitsLocalRepository de la zona de trabajo*/
+    /**M
+     * etodo que asigna el valor de localRepository en el atributo commitsLocalRepository de la zona de trabajo
+     * @param localRepository representa el nuevo valor de commitsLocalRepository de la zona de trabajo
+     */
     public void setLocalRepository(ArrayList<Commit> localRepository){
         this.commitsLocalRepository = localRepository;
     }
 
-    /*Metodo que retorna el atributo archivosRemoteRepository de la zona de trabajo
-	@return atributo archivosRemoteRepository*/
+    /**
+     * Metodo que retorna el atributo archivosRemoteRepository de la zona de trabajo
+     * @return atributo archivosRemoteRepository
+     */
     public ArrayList<Commit> getRemoteRepository(){
         return this.archivosRemoteRepository;
     }
 
-    /*Metodo que asigna el valor de remoteRepository en el atributo archivosRemoteRepository de la zona de trabajo
-	@param remoteRepository representa el nuevo valor de archivosRemoteRepository de la zona de trabajo*/
+    /**
+     * Metodo que asigna el valor de remoteRepository en el atributo archivosRemoteRepository de la zona de trabajo
+     * @param remoteRepository representa el nuevo valor de archivosRemoteRepository de la zona de trabajo
+     */
     public void setRemoteRepository(ArrayList<Commit> remoteRepository){
         this.archivosRemoteRepository = remoteRepository;
     }

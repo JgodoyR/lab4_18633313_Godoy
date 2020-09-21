@@ -17,10 +17,17 @@ package modelo;
 
 public class ArchivoTexto 
 {
-    public String nombre;
-    public String fechaModificacion;
-    public String contenido;
-    
+    public String nombre; //nombre del archivo de texto 
+    public String fechaModificacion; //fecha en que se modifico el archivo de texto
+    public String contenido; //contenido del archivo de texto
+      
+    /** 
+     * Crea un archivo de texto a partir de un nombre, fechaModificacion y contenido.
+     * @param nombre El nombre del archivo de texto.
+     * @param fechaModificacion Fecha de modificacion del archivo de texo.
+     * @param contenido Contenido del archivo de texto.
+     * @return archivo
+     */
     public ArchivoTexto ArchivoTexto(String nombre, String fechaModificacion, String contenido){
 
         ArchivoTexto archivo = new ArchivoTexto();
@@ -31,38 +38,50 @@ public class ArchivoTexto
         
     }
 
-    /*Metodo que retorna el atributo nombre del archivo de texto
-    @return atributo nombre*/
+    /**
+     * Metodo que retorna el atributo nombre del archivo de texto
+     * @return atributo nombre
+    */
     public String getNombre(){
         return this.nombre;
     }
 
-    /*Metodo que retorna el atributo fechaModificacion del archivo de texto
-    @return atributo fechaModificacion*/
+    /**
+     * Metodo que retorna el atributo fechaModificacion del archivo de texto
+     * @return atributo fechaModificacion
+     */
     public String getFechaModificacion(){
         return this.fechaModificacion;
     }
 
-    /*Metodo que retorna el atributo contenido del archivo de texto
-    @return atributo contenido*/
+    /**
+     * Metodo que retorna el atributo contenido del archivo de texto
+     * @return atributo contenido
+     */
     public String getContenido(){
         return this.contenido;
     }
 
-    /*Metodo que asigna el valor de nombre en el atributo nombre del archivo de texto
-	@param nombre representa el nuevo valor nombre del archivo de texto*/
+    /**
+     * Metodo que asigna el valor de nombre en el atributo nombre del archivo de texto
+     * @param nombre representa el nuevo valor nombre del archivo de texto
+     */
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
 
-    /*Metodo que asigna el valor de fechaModificacion en el atributo fechaModificacion del archivo de texto
-	@param fechaModificacion representa el nuevo valor fechaModificacion del archivo de texto*/
+    /**
+     * Metodo que asigna el valor de fechaModificacion en el atributo fechaModificacion del archivo de texto
+     * @param fechaModificacion representa el nuevo valor fechaModificacion del archivo de texto
+     */
     public void setFechaModificion(String fechaModificacion){
         this.fechaModificacion = fechaModificacion;
     }
 
-    /*Metodo que asigna el valor de contenido en el atributo contenido del archivo de texto
-	@param contenido representa el nuevo valor contenido del archivo de texto*/
+    /**
+     * Metodo que asigna el valor de contenido en el atributo contenido del archivo de texto
+     * @param contenido representa el nuevo valor contenido del archivo de texto
+     */
     public void setContenido(String contenido){
         this.contenido = contenido;
     }
