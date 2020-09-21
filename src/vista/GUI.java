@@ -30,17 +30,6 @@ public class GUI extends javax.swing.JFrame {
     boolean verificador = false;
     boolean init = false;
     
-    //Repositorio repositorio;
-    /*
-    private Repositorio getRepositorio(){
-        return repositorio;
-    }
-    
-    private void setRepositorio(Repositorio repositorio){
-       this.repositorio = repositorio;
-    }*/
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -405,28 +394,17 @@ public class GUI extends javax.swing.JFrame {
     private void botonStatusWorkspaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusWorkspaceActionPerformed
         // TODO add your handling code here:
         
-        mostrarWs.setText("");
-        //Repositorio repositorio = new Repositorio();
-        //repositorio = getRepositorio();
-        //ZonasTrabajo zonas = new ZonasTrabajo();
-        
-        mostrarWs.setText(String.valueOf(repositorio.nombre));
-              
-        /*
+        mostrarWs.setText("");     
         if(repositorio.zonas.archivosWorkspace.isEmpty()){
             JOptionPane.showMessageDialog(null, "No hay archivos en el Workspace", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             String elementos = "";
             for(int i = 0; i < repositorio.zonas.archivosWorkspace.size(); i++){
-                elementos = elementos + " " + repositorio.zonas.archivosWorkspace.get(i).nombre;
+                elementos = elementos + " " + (repositorio.zonas.archivosWorkspace.get(i).nombre);
             }
             mostrarWs.setText(elementos);
-            //repositorio.statusWorkspace(repositorio, zonas);
-            //mostrarWs.setText(String.valueOf(repositorio.statusWorkspace(repositorio, zonas)));
-        }
-        */
-        
+        }        
     }//GEN-LAST:event_botonStatusWorkspaceActionPerformed
 
     private void botonStatusLocalRepositoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusLocalRepositoryActionPerformed
@@ -438,7 +416,7 @@ public class GUI extends javax.swing.JFrame {
         else{
             String elementos = "";
             for(int i = 0; i < repositorio.zonas.commitsLocalRepository.size(); i++){
-                elementos = elementos + " " + repositorio.zonas.commitsLocalRepository.get(i).mensaje;
+                elementos = elementos + " " + repositorio.zonas.commitsLocalRepository.get(i).autor;
             }
             mostrarLR.setText(elementos);
         }
@@ -453,7 +431,7 @@ public class GUI extends javax.swing.JFrame {
         else{
             String elementos = "";
             for(int i = 0; i < repositorio.zonas.archivosRemoteRepository.size(); i++){
-                elementos = elementos + " " + repositorio.zonas.archivosRemoteRepository.get(i).mensaje;
+                elementos = elementos + " " + repositorio.zonas.archivosRemoteRepository.get(i).autor;
             }
             mostrarRR.setText(elementos);
         }
@@ -462,15 +440,24 @@ public class GUI extends javax.swing.JFrame {
     private void botonGitAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGitAddActionPerformed
         // TODO add your handling code here:
         String nombreArchivo = datos1.getText();
-        String all = datos2.getText();
+        String[] opciones = {"Si, deseo agregar todos los archivos", "No, quiero agregar solo uno"};
+        int respuesta = JOptionPane.showOptionDialog(null, "¿Desea agregar todos los archivos al Index?", "Git Add", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        
         if(repositorio.zonas.archivosWorkspace.size() > 0){
-            d1.setText("Ingrese el nombre del archivo");
-            d2.setText("Ingrese el contenido del archivo");
-            if (nombreArchivo.isEmpty()){
-                JOptionPane.showMessageDialog(null, "Debe introducir un nombre de archivo para agregar al Index", "Error", JOptionPane.INFORMATION_MESSAGE);
+            if(respuesta == JOptionPane.YES_OPTION){
+                repositorio.gitAddAll(repositorio, repositorio.zonas.archivosWorkspace);
+            }
+            else if (respuesta == JOptionPane.NO_OPTION){
+                d1.setText("Ingrese el nombre del archivo");
+                if (nombreArchivo.isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Debe introducir un nombre de archivo para agregar al Index", "Error", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    repositorio.gitAdd(repositorio, repositorio.zonas.archivosWorkspace, nombreArchivo);
+                }
             }
             else{
-                repositorio.gitAdd(repositorio, repositorio.zonas.archivosWorkspace, nombreArchivo);
+                JOptionPane.showMessageDialog(null, "No escogio ninguna opcion", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         else{
@@ -487,7 +474,11 @@ public class GUI extends javax.swing.JFrame {
         String nombreArchivo = datos1.getText();
         String contenidoArchivo = datos2.getText();
         
-        if(verificador){
+        repositorio.crearArchivo(repositorio, nombreArchivo, contenidoArchivo);
+        //mostrarI.setText(repositorio.zonas.archivosWorkspace.get(0).nombre);
+        
+        
+        /*if(verificador){
             repositorio.crearArchivo(repositorio, nombreArchivo, contenidoArchivo);
             System.out.println(repositorio.zonas.archivosWorkspace.get(0).nombre);
         }
@@ -529,9 +520,15 @@ public class GUI extends javax.swing.JFrame {
         String nombreRepo = datos1.getText();
         String autorRepo = datos2.getText();
         
+        
+        //repositorio.gitInit(nombreRepo, autorRepo);
+        //mostrarWs.setText(String.valueOf(repositorio.nombre));
+        //mostrarI.setText(String.valueOf(repositorio.autor));
+        /*    
+        
         if(verificador){
             repositorio.gitInit(nombreRepo, autorRepo);
-            System.out.println(repositorio.nombre);
+            mostrarWs.setText(repositorio.nombre);
         }
        
         verificador = false;
@@ -556,7 +553,7 @@ public class GUI extends javax.swing.JFrame {
     private void botonStatusIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonStatusIndexActionPerformed
         // TODO add your handling code here:
         mostrarI.setText("");
-       if(repositorio.zonas.archivosIndex.size() == 0){
+       if(repositorio.zonas.archivosIndex.isEmpty()){
            JOptionPane.showMessageDialog(null, "No hay archivos en el Index", "Error", JOptionPane.INFORMATION_MESSAGE);      
        }
        else{

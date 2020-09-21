@@ -23,90 +23,48 @@ public class Repositorio {
     public String nombre;
     public String autor;
     public ZonasTrabajo zonas = new ZonasTrabajo();
-    public Repositorio repo;
+    public Repositorio repo;    
     
-    /*public Repositorio(String nombre, String autor){
-        Repositorio repositorio = null;
-        
-        repositorio = gitInit(nombre, autor);
-        
-        this.repo = repositorio;
-        
-        //return repositorio;
-    }
-    
-    public Repositorio gitInit(String nombre, String autor){
-        
-        Repositorio repositorio = new Repositorio(nombre, autor);
-        
-        return repositorio;
-    }*/
-    
-    
-    
-    
-    public Repositorio Repositorio(String nombre, String autor){
-        Repositorio repositorio = new Repositorio();
+    public Repositorio Repo(String nombre, String autor){       
+        Repositorio repositorio = null; 
         this.nombre = nombre;
         this.autor = autor;
-        repositorio.gitInit(nombre, autor);
-        return repositorio;
+        return repositorio;     
     }
    
     
     public Repositorio gitInit(String nombre, String autor){
-       
-        Repositorio repositorio = null;
-        
-        repositorio = Repositorio(nombre, autor);
-        
-        //Repositorio repositorio = new Repositorio(nombre, autor);
-           
-        this.repo = repositorio;
-        
-        return repositorio;
+        Repositorio repositorio = null;        
+        Repo(nombre, autor);      
+        this.repo = repositorio; 
+        return repositorio; 
     }
-    
-    /*public Repositorio(String nombre, String autor){
-        this.nombre = nombre;
-        this.autor = autor;        
-    }*/
-    
-    /*public Repositorio gitInit(String nombre, String autor){
-        return repo;
-    }*/
 
     /*Metodo que permite crear un archivo de texto plano dandole un nombre, contenido
     y fecha de modificacion
     */
-    public Repositorio crearArchivo(Repositorio repositorio, String nombre, String contenido){
-
-        nombre = null;
-        contenido = null;
+    public Repositorio crearArchivo(Repositorio repositorio, String nombre, String contenido){       
         String fechaModificacion;
-
         fechaModificacion = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date());
-
         ArchivoTexto archivoTexto = new ArchivoTexto();
         archivoTexto =  archivoTexto.ArchivoTexto(nombre, fechaModificacion, contenido);
-
-        repositorio.zonas.archivosWorkspace.add(archivoTexto);
-        
-        //return repo;
-
+        repositorio.zonas.archivosWorkspace.add(archivoTexto);      
         return repositorio;
     }
     
-    public Repositorio gitAdd(Repositorio repositorio, ArrayList<ArchivoTexto> archivosWorkspace, String archivo){
-        
+    public Repositorio gitAdd(Repositorio repositorio, ArrayList<ArchivoTexto> archivosWorkspace, String archivo){        
         for(ArchivoTexto archivoTexto : zonas.archivosWorkspace){
             if(archivoTexto.equals(archivo)){
                 zonas.archivosIndex.add(archivoTexto);
             }
-        }
-        //return repo;
+        }        
         return repositorio;
-        
+    }
+    
+    public Repositorio gitAddAll(Repositorio repositorio, ArrayList<ArchivoTexto> archivosWorkspace){
+        zonas.archivosIndex.clear();
+        zonas.archivosIndex.addAll(zonas.archivosWorkspace);
+        return repositorio;
     }
     
     public ArrayList<String> gitCommit(Repositorio repositorio, String autor, String mensaje, ArrayList<ArchivoTexto> archivosIndex){
@@ -186,9 +144,9 @@ public class Repositorio {
                 for(int j = 0; j < zonas.archivosRemoteRepository.size(); j++){
                     if((zonas.archivosWorkspace.get(i).nombre).equals((zonas.archivosRemoteRepository.get(j).archivos).get(j).nombre)){
                         zonas.archivosWorkspace.remove(zonas.archivosWorkspace.get(i));
-                        nombre = null;
-                        fecha = null;
-                        contenido = null;
+                        //nombre = null;
+                        //fecha = null;
+                        //contenido = null;
                         nombre = (zonas.commitsLocalRepository.get(j).archivos).get(j).nombre;
                         fecha = (zonas.commitsLocalRepository.get(j).archivos).get(j).fechaModificacion;
                         contenido = (zonas.commitsLocalRepository.get(j).archivos).get(j).contenido;
@@ -205,54 +163,6 @@ public class Repositorio {
             System.out.println("\nNo hay archivos en el Remote Repository para copiarlos en el Workspace.");
         }
         
-    }
-    
-    public Repositorio statusWorkspace(Repositorio repositorio, ZonasTrabajo zonas){
-        
-        for(int i = 0; i < zonas.archivosWorkspace.size(); i++){
-            System.out.print("[");
-            System.out.print(zonas.archivosWorkspace.get(i).nombre);
-            System.out.print("]");
-            System.out.print(" ");
-        }
-        //return repo;
-        return repositorio;
-    }
-    
-    public Repositorio statusIndex(Repositorio repositorio, ZonasTrabajo zonas){
-        
-        for(int i = 0; i < zonas.archivosIndex.size(); i++){
-            System.out.print("[");
-            System.out.print(zonas.archivosIndex.get(i).nombre);
-            System.out.print("]");
-            System.out.print(" ");
-        }
-        //return repo;
-        return repositorio;
-    }
-    
-    public void statusLocalRepository(){
-        
-        for(int i = 0; i < zonas.commitsLocalRepository.size(); i++){
-            System.out.print("[");
-            System.out.print(zonas.commitsLocalRepository.get(i).autor + ", ");
-            System.out.print(zonas.commitsLocalRepository.get(i).marcaTiempo + ", ");
-            System.out.print(zonas.commitsLocalRepository.get(i).mensaje);
-            System.out.print("]");
-            System.out.print(" ");
-        }
-    }
-    
-    public void statusRemoteRepository(){
-        
-        for(int i = 0; i < zonas.archivosRemoteRepository.size(); i++){
-            System.out.print("[");
-            System.out.print(zonas.archivosRemoteRepository.get(i).autor + ", ");
-            System.out.print(zonas.archivosRemoteRepository.get(i).marcaTiempo + ", ");
-            System.out.print(zonas.archivosRemoteRepository.get(i).mensaje);
-            System.out.print("]");
-            System.out.print(" ");
-        }
     }
 
 }
