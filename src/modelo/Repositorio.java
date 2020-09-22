@@ -162,7 +162,7 @@ public class Repositorio {
                     cambios.add(aux);
                 }
     
-                for(ArchivoTexto archivo: ultimoCommit){
+                for(ArchivoTexto archivo : ultimoCommit){
                     aux = null;
                     aux = "- " + archivo.nombre;
                     cambios.add(aux);
@@ -182,10 +182,13 @@ public class Repositorio {
      * @return no posee debido a que es un void
      */
     public void gitPush(){
-        if(zonas.commitsLocalRepository.size() > 0 && zonas.commitsLocalRepository.size() > zonas.archivosRemoteRepository.size()){
-            zonas.archivosRemoteRepository = zonas.commitsLocalRepository;
+        if(zonas.commitsLocalRepository.size() > 0){
+            zonas.archivosRemoteRepository.clear();
+            for(Commit commit : zonas.commitsLocalRepository){
+                zonas.archivosRemoteRepository.add(commit);
+            }
             zonas.alDia = true;
-        }         
+        }
     }
     
     /** 
@@ -203,7 +206,10 @@ public class Repositorio {
             for(int i = 0; i < zonas.archivosWorkspace.size(); i++){
                 for(int j = 0; j < zonas.archivosRemoteRepository.size(); j++){
                     if((zonas.archivosWorkspace.get(i).nombre).equals((zonas.archivosRemoteRepository.get(j).archivos).get(j).nombre)){
-                        zonas.archivosWorkspace.remove(zonas.archivosWorkspace.get(i));                      
+                        zonas.archivosWorkspace.remove(zonas.archivosWorkspace.get(i));
+                        nombre = null;
+                        fecha = null;
+                        contenido = null;
                         nombre = (zonas.commitsLocalRepository.get(j).archivos).get(j).nombre;
                         fecha = (zonas.commitsLocalRepository.get(j).archivos).get(j).fechaModificacion;
                         contenido = (zonas.commitsLocalRepository.get(j).archivos).get(j).contenido;
@@ -216,5 +222,148 @@ public class Repositorio {
             zonas.alDia = false;
         }              
     }
+    
+    /** 
+     * Pasa todos los archivos del arreglo de la zona de trabajo Workspace a un string 
+     * @param repositorio El repositorio con sus atributos
+     * @param archivosWorkspace Un arreglo que contiene todos los archivos del Workspace
+     * @return elementos String que contiene los archivos de la zona de trabajo Workspace
+     */      
+    public String gitStatusWorkspace(Repositorio repositorio, ArrayList<ArchivoTexto> archivosWorkspace){
 
+        String elementos = "";
+        if(zonas.archivosWorkspace.isEmpty()){
+                elementos = "";
+            }
+            else{
+                for(int i = 0; i < zonas.archivosWorkspace.size(); i++){
+                    elementos = elementos + " " + (zonas.archivosWorkspace.get(i).nombre) + "\n";
+                }
+            }         
+        return elementos;
+    }
+    
+    /** 
+     * Pasa todos los archivos del arreglo de la zona de trabajo Index a un string 
+     * @param repositorio El repositorio con sus atributos
+     * @param archivosIndex Un arreglo que contiene todos los archivos del Index
+     * @return elementos String que contiene los archivos de la zona de trabajo Index
+     */      
+    public String gitStatusIndex(Repositorio repositorio, ArrayList<ArchivoTexto> archivosIndex){       
+        String elementos = "";
+        if(zonas.archivosIndex.isEmpty()){
+                elementos = "";
+            }
+            else{
+                for(int i = 0; i < zonas.archivosIndex.size(); i++){
+                    elementos = elementos + " " + (zonas.archivosIndex.get(i).nombre) + "\n";
+                }
+            }         
+        return elementos;
+    }
+    
+    /** 
+     * Pasa todos los commits del arreglo de la zona de trabajo Local Repository a un string 
+     * @param repositorio El repositorio con sus atributos
+     * @param commitsLocalRepository Un arreglo que contiene todos los commits del Local Repository
+     * @return elementos String que contiene los archivos de la zona de trabajo Local Repository
+     */      
+    public String gitStatusLocalRepository(Repositorio repositorio, ArrayList<Commit> commitsLocalRepository){
+        ArrayList<String> aux = new ArrayList<>();
+        ArrayList<String> lista = new ArrayList<>();
+        String elementos = "";
+        if(zonas.commitsLocalRepository.isEmpty()){
+            elementos = "";
+        }
+        else{
+            if(zonas.commitsLocalRepository.size() < 4){
+                
+                for(int i = 0; i < zonas.commitsLocalRepository.size(); i++){ 
+                    elementos = elementos + "- " + (zonas.commitsLocalRepository.get(i).archivos).get(i).nombre + " " + "\"" + zonas.commitsLocalRepository.get(i).mensaje + "\"" + "\n";
+                }
+            }
+            else{
+                for(int i = zonas.commitsLocalRepository.size() - 1; i >= 0; i--){
+                    aux.add((zonas.commitsLocalRepository.get(i).archivos).get(i).nombre + " " + "\"" + zonas.commitsLocalRepository.get(i).mensaje + "\"" + "\n");                    
+                }
+                for(int j = 0; j < 3; j++){
+                    lista.add(aux.get(j));
+                }
+                for(int k = 0; k < lista.size(); k++){
+                    elementos = elementos + " " + lista.get(k);
+                }
+            }
+        }      
+        return elementos;
+    }
+    
+    /** 
+     * Pasa todos los commits del arreglo de la zona de trabajo Remote Repository a un string 
+     * @param repositorio El repositorio con sus atributos
+     * @param archivosRemoteRepository Un arreglo que contiene todos los commits del Remote Repository
+     * @return elementos String que contiene los archivos de la zona de trabajo Remote Repository
+     */    
+    public String gitStatusRemoteRepository(Repositorio repositorio, ArrayList<Commit> archivosRemoteRepository){
+        ArrayList<String> aux = new ArrayList<>();
+        ArrayList<String> lista = new ArrayList<>();
+        String elementos = "";
+        if(zonas.archivosRemoteRepository.isEmpty()){
+            elementos = "";
+        }
+        else{
+            if(zonas.archivosRemoteRepository.size() < 4){
+                for(int i = 0; i < zonas.archivosRemoteRepository.size(); i++){
+                    elementos = elementos + "- " + (zonas.archivosRemoteRepository.get(i).archivos).get(i).nombre + " " + "\"" + zonas.archivosRemoteRepository.get(i).mensaje + "\"" + "\n";
+                }
+            }
+            else{
+                for(int i = zonas.archivosRemoteRepository.size() - 1; i >= 0; i--){
+                    aux.add((zonas.archivosRemoteRepository.get(i).archivos).get(i).nombre + " " + "\"" + zonas.archivosRemoteRepository.get(i).mensaje + "\"" + "\n");                    
+                }
+                for(int j = 0; j < 3; j++){
+                    lista.add(aux.get(j));
+                }
+                for(int k = 0; k < lista.size(); k++){
+                    elementos = elementos + " " + lista.get(k);
+                }
+            }
+        }      
+        return elementos;
+    }   
+    
+    /** 
+     * Se recorren los commmits del Local Repository, si son menos de 5 se muestran todos, en caso contrario solo se
+     * muestran los ultimos 5 commits, indicando fecha, mensaje descriptivo y los archivos que contiene.
+     * @param repositorio El repositorio con sus atributos
+     * @param commitsLocalRepository Un arreglo que contiene todos los commits del Local Repository
+     * @return elementos Un string que posee todos los commits del Local Repository
+     */
+    public String gitLog(Repositorio repositorio, ArrayList<Commit> commitsLocalRepository){
+        
+        ArrayList<String> aux = new ArrayList<>();
+        ArrayList<String> lista = new ArrayList<>();
+        String elementos = "";
+        if(zonas.commitsLocalRepository.isEmpty()){
+            elementos = "";
+        }
+        else{
+            if(zonas.commitsLocalRepository.size() < 6){
+                for(int i = 0; i < zonas.commitsLocalRepository.size(); i++){
+                    elementos = elementos + "- " + (zonas.commitsLocalRepository.get(i).archivos).get(i).nombre + " " + zonas.commitsLocalRepository.get(i).marcaTiempo + " " + "\"" + zonas.commitsLocalRepository.get(i).mensaje + "\"" + "\n";
+                }
+            }
+            else{
+                for(int i = zonas.commitsLocalRepository.size() - 1; i >= 0; i--){
+                    aux.add((zonas.commitsLocalRepository.get(i).archivos).get(i).nombre + " " + zonas.commitsLocalRepository.get(i).marcaTiempo + " " + "\"" + zonas.commitsLocalRepository.get(i).mensaje + "\"" + "\n");                    
+                }
+                for(int j = 0; j < 5; j++){
+                    lista.add(aux.get(j));
+                }
+                for(int k = 0; k < lista.size(); k++){
+                    elementos = elementos + " " + lista.get(k);
+                }
+            }
+        }      
+        return elementos;
+    }       
 }
